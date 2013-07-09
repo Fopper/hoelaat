@@ -73,6 +73,11 @@ static const char *nums[] = {
 	"dertien",
 	"veertien",
 	"kwart",
+	"zestien",
+	"zeventien",
+	"achtien",
+	"negentien",
+	"twintig",
 };
 
 static const char *
@@ -93,10 +98,7 @@ hour_string(
 	if (h == 0)
 		return "midder-\nnacht";
 
-	if (h == 12)
-		return "middag";
-
-	if (h < 12)
+	if (h <= 12)
 		return nums[h];
 	else
 		return nums[h - 12];
@@ -114,7 +116,7 @@ nederlands_format(
 		min_word.text = "";
 		rel_word.text = "";
 	} else
-	if (min <= 15)
+	if (min <= 20)
 	{
 		// over the hour
 		min_word.text = min_string(min);
@@ -134,7 +136,7 @@ nederlands_format(
 		rel_word.text = "half";
 		hour++;
 	} else
-	if (min < 45)
+	if (min < 40)
 	{
 		// over the half
 		min_word.text = min_string(min - 30);
@@ -169,7 +171,7 @@ nederlands_format(
 		ampm_word.text = "'s nachts";
 	else
 	if (hour <= 12)
-		ampm_word.text = "'s morgens";
+		ampm_word.text = "'s ochtends";
 	else
 	if (hour <= 17)
 		ampm_word.text = "'s middags";
