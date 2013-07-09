@@ -124,7 +124,7 @@ nederlands_format(
 	} else
 	if (min < 30)
 	{
-		// over the kwart
+		// over 20 minutes
 		min_word.text = min_string(30 - min);
 		rel_word.text = "voor half";
 		hour++;
@@ -152,7 +152,7 @@ nederlands_format(
 	} else
 	if (min < 60)
 	{
-		// over the kwart
+		// over 40 minutes (not at "kwart voor")
 		min_word.text = min_string(60 - min);
 		rel_word.text = "voor";
 		hour++;
@@ -160,9 +160,15 @@ nederlands_format(
 
 	hour_word.text = hour_string(hour);
 
-	// at midnight and noon do not display an am/pm notation
+	// readjust hour back to original for am/pm notation
+	if (min > 20)
+	{
+		hour--;
+	}
+
+	// at midnight do not display an am/pm notation
 	// but don't say "before midnight"
-	if (hour == 0 || hour == 12)
+	if (hour == 0)
 	{
 		// nothing to do
 		ampm_word.text = "";
@@ -170,7 +176,7 @@ nederlands_format(
 	if (hour < 6)
 		ampm_word.text = "'s nachts";
 	else
-	if (hour <= 12)
+	if (hour <= 11)
 		ampm_word.text = "'s ochtends";
 	else
 	if (hour <= 17)
@@ -211,15 +217,6 @@ handle_tick(
 	min_word.old_text = min_word.text;
 
 	nederlands_format(hour,  min);
-
-/*
-	string_format_time(
-		time_buffer,
-		sizeof(time_buffer),
-		"%H:%M",
-		event->tick_time
-	);
-*/
 
 	update_word(&ampm_word);
 	update_word(&hour_word);
